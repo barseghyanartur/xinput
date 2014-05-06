@@ -6,6 +6,7 @@ __license__ = 'GPL 2.0/LGPL 2.1'
 __copyright__ = 'Copyright 2013-2014 Artur Barseghyan'
 __all__ = (
     'operate_xinput_device', 'MODE_ENABLE', 'DEVICE_NAME_SYNAPTIC', 'MODE_DISABLE',
+    'VERBOSITY_DEBUG', 'VERBOSITY_INFO', 'VERBOSITY_ERROR', 'VERBOSITY_NONE'
 )
 
 import os
@@ -19,8 +20,12 @@ DEFAULT_MODE = MODE_DISABLE
 
 DEVICE_NAME_SYNAPTIC = 'Synaptics TouchPad'
 DEFAULT_DEVICE_NAME = DEVICE_NAME_SYNAPTIC
+VERBOSITY_DEBUG = 3
+VERBOSITY_INFO = 2
+VERBOSITY_ERROR = 1
+VERBOSITY_NONE = 0
 
-def operate_xinput_device(mode=None, device_name=None):
+def operate_xinput_device(mode=None, device_name=None, verbosity=VERBOSITY_NONE):
     """
     Operates touchpad.
 
@@ -34,11 +39,15 @@ def operate_xinput_device(mode=None, device_name=None):
     try:
         # We simply rely on "xinput" command. We grep "Synaptics TouchPad" word there.
         shell_response = os.popen('xinput list | grep "{0}"'.format(str(device_name))).read()
+        if verbosity == VERBOSITY_DEBUG:
+            print(shell_response)
         # RegEx to grab device ID        
         regex = re.compile('id=(?P<line>\d+)', re.IGNORECASE)
         # Grab device ID. If any errors occur, device name is invalid (no such device).        
         try:
             touchpad_id = regex.findall(shell_response)[0]
+            if verbosity == VERBOSITY_DEBUG:
+                print(touchpad_id)
         except Exception as e:
             raise Exception('No such device "{0}". Type "xinput list" in terminal to see the '
                             'list of available devices.'.format(str(device_name)))
@@ -46,6 +55,7 @@ def operate_xinput_device(mode=None, device_name=None):
         os.system('xinput set-prop {0} "Device Enabled" {1}'.format(touchpad_id, str(mode)))
     except Exception as e:
         print(e)
+
 
 def main(args=None):
     # Parse command line options
@@ -58,7 +68,7 @@ def main(args=None):
     # Process options
     for o, a in opts:
         if o in ("-h", "--help"):
-            print(__doc__)
+            print(operate_xinput_device.__doc__)
             sys.exit(0)
     # Process arguments
     try:

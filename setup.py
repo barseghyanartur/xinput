@@ -32,7 +32,7 @@ title = 'xinput'
 setup(
     name = title,
     version = version,
-    description = ("Enable/disable xinput devices from terminal."),
+    description = ("Enable/disable xinput devices from terminal or using the API."),
     long_description = readme,
     classifiers = [
         "Programming Language :: Python :: 2.6",
@@ -42,7 +42,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
         "Intended Audience :: Developers",
-        "Operating System :: OS Independent",
+        "Operating System :: POSIX :: Linux",
         "Development Status :: 4 - Beta",
     ],
     keywords = 'xinput',
