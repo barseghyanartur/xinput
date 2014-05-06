@@ -1,0 +1,12 @@
+*.py[cod]
+.hgignore~
+.gitignore~
+.travis.yml~
+.hg/
+.tox/
+
+builddocs/
+builddocs.zip
+build/
+dist/
+src/xinput.egg-info

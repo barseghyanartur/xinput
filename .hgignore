@@ -1,0 +1,18 @@
+syntax: regexp
+\.pyc$
+\.hgignore~
+\.gitignore~
+\.git/
+\.tox/
+\.travis\.yml~
+
+^MANIFEST\.in~
+^tmp/
+\.zip
+^release/
+^deploy/
+^builddocs/
+^builddocs.zip
+^build/
+^dist/
+^src/xinput\.egg-info

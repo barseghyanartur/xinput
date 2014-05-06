@@ -1,0 +1,4 @@
+include README.rst
+include src/xinput/bin/xinput-manage
+include src/xinput/bin/enable-touchpad
+include src/xinput/bin/disable-touchpad
