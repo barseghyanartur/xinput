@@ -10,7 +10,7 @@ except:
     readme = ''
 
 exec_dirs = [
-    'src/xinput/',
+    #'src/xinput/',
     'src/xinput/bin/',
 ]
 
@@ -26,7 +26,7 @@ try:
 except:
     pass
 
-version = '0.1'
+version = '0.1.1'
 title = 'xinput'
 
 setup(
@@ -56,5 +56,5 @@ setup(
     package_data = {
         'xinput': execs,
     },
-    scripts = ['src/xinput/bin/xinput-manage', 'src/xinput/bin/enable-touchpad', 'src/xinput/bin/disable-touchpad',]
+    scripts = execs
 )
