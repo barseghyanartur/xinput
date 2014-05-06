@@ -1,0 +1,19 @@
+
+Documentation!
+==================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 20
+
+   xinput
+
+
+Indices and tables
+==================================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
