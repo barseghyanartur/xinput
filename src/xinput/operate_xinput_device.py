@@ -5,8 +5,10 @@ __author__ = 'Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
 __copyright__ = 'Copyright 2013-2014 Artur Barseghyan'
 __all__ = (
-    'operate_xinput_device', 'MODE_ENABLE', 'DEVICE_NAME_SYNAPTIC', 'MODE_DISABLE',
-    'VERBOSITY_DEBUG', 'VERBOSITY_INFO', 'VERBOSITY_ERROR', 'VERBOSITY_NONE'
+    'operate_xinput_device', 'MODE_ENABLE', 'DEVICE_NAME_TOUCHPAD',
+    'DEVICE_NAME_SYNAPTIC_TOUCHPAD', 'DEVICE_NAME_ELANTECH_TOUCHPAD',
+    'MODE_DISABLE', 'VERBOSITY_DEBUG', 'VERBOSITY_INFO', 'VERBOSITY_ERROR',
+    'VERBOSITY_NONE'
 )
 
 import os
@@ -18,12 +20,17 @@ MODE_ENABLE = '1'
 MODE_DISABLE = '0'
 DEFAULT_MODE = MODE_DISABLE
 
-DEVICE_NAME_SYNAPTIC = 'Synaptics TouchPad'
-DEFAULT_DEVICE_NAME = DEVICE_NAME_SYNAPTIC
+DEVICE_NAME_TOUCHPAD = 'Synaptics TouchPad'
+DEVICE_NAME_SYNAPTIC_TOUCHPAD = 'Synaptics TouchPad'
+DEVICE_NAME_ELANTECH_TOUCHPAD = 'Elantech TouchPad'
+DEFAULT_DEVICE_NAME = DEVICE_NAME_TOUCHPAD
 VERBOSITY_DEBUG = 3
 VERBOSITY_INFO = 2
 VERBOSITY_ERROR = 1
 VERBOSITY_NONE = 0
+
+# For backwards compatibility
+DEVICE_NAME_SYNAPTIC = DEVICE_NAME_SYNAPTIC_TOUCHPAD
 
 def operate_xinput_device(mode=None, device_name=None, verbosity=VERBOSITY_NONE):
     """
@@ -38,7 +45,8 @@ def operate_xinput_device(mode=None, device_name=None, verbosity=VERBOSITY_NONE)
         device_name = DEFAULT_DEVICE_NAME
     try:
         # We simply rely on "xinput" command. We grep "Synaptics TouchPad" word there.
-        shell_response = os.popen('xinput list | grep "{0}"'.format(str(device_name))).read()
+        shell_response = os.popen('xinput list | grep "{0}" --ignore-case' \
+                           .format(str(device_name))).read()
         if verbosity == VERBOSITY_DEBUG:
             print(shell_response)
         # RegEx to grab device ID        
