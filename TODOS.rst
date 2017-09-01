@@ -17,6 +17,7 @@ Must haves
 
 Should haves
 ------------------------------------
+- Toggle touchpad functionality.
 
 Could haves
 ------------------------------------

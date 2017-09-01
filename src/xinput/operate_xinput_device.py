@@ -1,20 +1,27 @@
 from __future__ import print_function
 
-__title__ = 'xinput.operate_xinput_device'
-__author__ = 'Artur Barseghyan'
-__license__ = 'GPL 2.0/LGPL 2.1'
-__copyright__ = 'Copyright 2013-2014 Artur Barseghyan'
-__all__ = (
-    'operate_xinput_device', 'MODE_ENABLE', 'DEVICE_NAME_TOUCHPAD',
-    'DEVICE_NAME_SYNAPTIC_TOUCHPAD', 'DEVICE_NAME_ELANTECH_TOUCHPAD',
-    'MODE_DISABLE', 'VERBOSITY_DEBUG', 'VERBOSITY_INFO', 'VERBOSITY_ERROR',
-    'VERBOSITY_NONE'
-)
-
 import os
 import re
 import sys
 import getopt
+
+__title__ = 'xinput.operate_xinput_device'
+__author__ = 'Artur Barseghyan'
+__license__ = 'GPL 2.0/LGPL 2.1'
+__copyright__ = 'Copyright 2013-2017 Artur Barseghyan'
+__all__ = (
+    'DEVICE_NAME_ELANTECH_TOUCHPAD',
+    'DEVICE_NAME_SYNAPTIC_TOUCHPAD',
+    'DEVICE_NAME_TOUCHPAD',
+    'MODE_DISABLE',
+    'MODE_ENABLE',
+    'operate_xinput_device',
+    'VERBOSITY_DEBUG',
+    'VERBOSITY_ERROR',
+    'VERBOSITY_INFO',
+    'VERBOSITY_NONE',
+)
+
 
 MODE_ENABLE = '1'
 MODE_DISABLE = '0'
@@ -32,37 +39,51 @@ VERBOSITY_NONE = 0
 # For backwards compatibility
 DEVICE_NAME_SYNAPTIC = DEVICE_NAME_SYNAPTIC_TOUCHPAD
 
-def operate_xinput_device(mode=None, device_name=None, verbosity=VERBOSITY_NONE):
-    """
-    Operates touchpad.
 
-    :param str mode:
-    :param str device_name:
+def operate_xinput_device(mode=None,
+                          device_name=None,
+                          verbosity=VERBOSITY_NONE):
+    """Operates touchpad.
+
+    :param mode:
+    :param device_name:
+    :param verbosity:
+    :type mode: str
+    :type device_name: str
+    :type mode: bool
     """
-    if not mode in (MODE_ENABLE, MODE_DISABLE):
+    if mode not in (MODE_ENABLE, MODE_DISABLE):
         mode = DEFAULT_MODE
     if not device_name:
         device_name = DEFAULT_DEVICE_NAME
     try:
-        # We simply rely on "xinput" command. We grep "Synaptics TouchPad" word there.
-        shell_response = os.popen('xinput list | grep "{0}" --ignore-case' \
-                           .format(str(device_name))).read()
+        # We simply rely on "xinput" command. We grep "Synaptics TouchPad"
+        # word there.
+        shell_response = os.popen(
+            'xinput list | grep "{0}" --ignore-case'.format(str(device_name))
+        ).read()
         if verbosity == VERBOSITY_DEBUG:
             print(shell_response)
-        # RegEx to grab device ID        
+        # RegEx to grab device ID
         regex = re.compile('id=(?P<line>\d+)', re.IGNORECASE)
-        # Grab device ID. If any errors occur, device name is invalid (no such device).        
+        # Grab device ID. If any errors occur, device name is invalid (no
+        # such device).
         try:
             touchpad_id = regex.findall(shell_response)[0]
             if verbosity == VERBOSITY_DEBUG:
                 print(touchpad_id)
-        except Exception as e:
-            raise Exception('No such device "{0}". Type "xinput list" in terminal to see the '
-                            'list of available devices.'.format(str(device_name)))
-        # Our command to enable/disable device.        
-        os.system('xinput set-prop {0} "Device Enabled" {1}'.format(touchpad_id, str(mode)))
-    except Exception as e:
-        print(e)
+        except Exception as err:
+            raise Exception(
+                'No such device "{0}". Type "xinput list" in terminal to see'
+                ' the list of available devices.'.format(str(device_name))
+            )
+        # Our command to enable/disable device.
+        os.system(
+            'xinput set-prop {0} "Device Enabled" '
+            '{1}'.format(touchpad_id, str(mode))
+        )
+    except Exception as err:
+        print(err)
 
 
 def main(args=None):
@@ -81,11 +102,11 @@ def main(args=None):
     # Process arguments
     try:
         mode = args[0]
-    except Exception as e:
+    except Exception as err:
         mode = None
     try:
         device_name = ' '.join(args[1:])
-    except Exception as e:
+    except Exception as err:
         device_name = None
 
     operate_xinput_device(mode, device_name)

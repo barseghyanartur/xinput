@@ -4,7 +4,9 @@
 .travis.yml~
 .hg/
 .tox/
+.idea/
 
+src/xinput/bin/toggle-touchpad
 builddocs/
 builddocs.zip
 build/

@@ -1,13 +1,15 @@
 from __future__ import print_function
 
+import unittest
+
 __title__ = 'xinput.tests'
 __author__ = 'Artur Barseghyan'
 __license__ = 'GPL 2.0/LGPL 2.1'
-__copyright__ = 'Copyright 2013-2014 Artur Barseghyan'
+__copyright__ = '2013-2017 Artur Barseghyan'
 
-import unittest
 
 PRINT_INFO = True
+
 
 def print_info(func):
     """
@@ -30,6 +32,7 @@ def print_info(func):
 
         return result
     return inner
+
 
 class XinputTest(unittest.TestCase):
     """
