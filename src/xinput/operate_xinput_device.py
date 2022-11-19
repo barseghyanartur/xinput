@@ -60,7 +60,7 @@ def operate_xinput_device(mode=None,
         # We simply rely on "xinput" command. We grep "Synaptics TouchPad"
         # word there.
         shell_response = os.popen(
-            'xinput list | grep "{0}" --ignore-case'.format(str(device_name))
+            'xinput list | grep -i "{0}"'.format(str(device_name))
         ).read()
         if verbosity == VERBOSITY_DEBUG:
             print(shell_response)
